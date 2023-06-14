@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-server-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-server-test
+  template:
+    metadata:
+      labels:
+        app: flask-server-test
+    spec:
+      containers:
+        - name: flask-server-test-container
+          image: app:latest
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/templates
+      volumes:
+        - name: templates
+	- hostPath: ~/app/templates
+          configMap:
+            name: my-configmap
